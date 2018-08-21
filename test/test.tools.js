@@ -5,6 +5,16 @@ let gmail = new Gmail();
 
 const testData = require("./testdata-parser.js");
 
+function testXhrEventParsing(jsonXhrData, eventName) {
+    const api = new Gmail();
+    const xhrData = JSON.parse(jsonXhrData);
+
+    const threads = api.tools.extract_from_graph(xhrData, api.check.data.is_thread);
+    const actionType = api.tools.check_event_type(threads[0]);
+
+    assert.equal(eventName, actionType);
+};
+
 describe("Monkeypatching", () => {
     it("patching functions works", () => {
         var ns = {};
